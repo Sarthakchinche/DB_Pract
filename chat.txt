@@ -1,0 +1,29 @@
+create table user(
+	user_id int auto_increment primary key,
+	name varchar(30)not null,
+	contact int(10) UNIQUE not null,
+	email varchar(40) not null,username varchar(40)
+);
+
+create table message(
+	msg_id int auto_increment not null,
+	msg_data mediumtext not null,
+	sent_by int not null,
+	sent_to int not null,
+	status enum("not_delivered","delivered","read"),
+	primary key(msg_id),
+	foreign key(sent_by) REFERENCES user(user_id) ON DELETE CASCADE,
+	foreign key(sent_to) REFERENCES user(user_id) ON DELETE CASCADE
+);
+
+INSERT INTO user(name,contact,email) values("Shyam",9662621700,"mail@mail.com"),
+("Someone2",9662621701,"mai@mail.com"),
+("Someone2",9662621702,"mai@mail.com"),
+("Anyone",96626217603,"mail1@mail.com");
+
+INSERT INTO message(msg_data,sent_by,sent_to,status,M_Date) values("gdgdhsgdhgdhgdhsggddgdshdgsdgshdsghjdshjdjshdjshdbdbdsjdsdj",6,7,"delivered",curdate());
+
+select t.* , u.name as receiver from (select m.*, u.name as sender from message m left join user u on m.sent_by=u.user_id) as t left join user u  on t.sent_to = u.user_id;
+
+
+select t.*,u.name as reciever from(select m.*,u.name as sender from message m left join user u on m.sent_by=user_id) as t left join user u on t.sent_to=u.user_id;
